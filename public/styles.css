@@ -300,6 +300,54 @@ body {
   margin-bottom: 0.25rem;
 }
 
+/* Story Continuation */
+.continuation-card {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.continuation-image {
+  max-width: 100%;
+  border-radius: 0.5rem;
+}
+
+.continuation-text {
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
+.continuation-text p {
+  margin-bottom: 1rem;
+}
+
+.continuation-text p:last-child {
+  margin-bottom: 0;
+}
+
+.suggestions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.suggestion-btn {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.suggestion-btn:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
 /* Footer */
 .footer {
   text-align: center;

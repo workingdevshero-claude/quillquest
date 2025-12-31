@@ -70,6 +70,52 @@ async function generatePrompt() {
   }
 }
 
+// Continue Story
+async function continueStory() {
+  const storyText = (document.getElementById('story-text') as HTMLTextAreaElement).value;
+  const direction = (document.getElementById('story-direction') as HTMLInputElement).value;
+  const resultId = 'continue-result';
+
+  if (!storyText.trim()) {
+    showError(resultId, 'Please enter your story text');
+    return;
+  }
+
+  showLoading(resultId);
+
+  try {
+    const result = await apiCall('/api/stories/continue', { storyText, direction: direction || undefined });
+    const resultArea = document.getElementById(resultId)!;
+    resultArea.className = 'result-area visible';
+
+    let html = `
+      <div class="continuation-card">
+        ${result.imageUrl ? `<img src="${result.imageUrl}" alt="Story scene" class="continuation-image">` : ''}
+        <div>
+          <p class="section-label">Continuation</p>
+          <div class="continuation-text">${result.continuation.split('\n').map((p: string) => `<p>${p}</p>`).join('')}</div>
+          ${result.suggestions?.length ? `
+            <p class="section-label">Alternative Directions</p>
+            <div class="suggestions-list">
+              ${result.suggestions.map((s: string) => `<button class="suggestion-btn" onclick="useSuggestion('${s.replace(/'/g, "\\'")}')">${s}</button>`).join('')}
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+    resultArea.innerHTML = html;
+  } catch (e: any) {
+    showError(resultId, e.message);
+  }
+}
+
+// Helper to use a suggestion as direction
+function useSuggestion(suggestion: string) {
+  const directionInput = document.getElementById('story-direction') as HTMLInputElement;
+  directionInput.value = suggestion;
+  directionInput.scrollIntoView({ behavior: 'smooth' });
+}
+
 // Generate Character
 async function generateCharacter() {
   const description = (document.getElementById('character-desc') as HTMLTextAreaElement).value;
@@ -188,6 +234,8 @@ async function generateWorld() {
 
 // Make functions globally available
 (window as any).generatePrompt = generatePrompt;
+(window as any).continueStory = continueStory;
+(window as any).useSuggestion = useSuggestion;
 (window as any).generateCharacter = generateCharacter;
 (window as any).visualizeScene = visualizeScene;
 (window as any).generateWorld = generateWorld;

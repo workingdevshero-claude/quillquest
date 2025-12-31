@@ -179,6 +179,56 @@ export class VeniceService {
     }
   }
 
+  async continueStory(
+    storyText: string,
+    direction?: string
+  ): Promise<{
+    continuation: string;
+    suggestions: string[];
+    imageUrl?: string;
+  }> {
+    const directionHint = direction
+      ? `Continue the story in this direction: "${direction}".`
+      : "";
+
+    const textPrompt = `You are a creative fiction writer. Continue the following story naturally and engagingly.
+${directionHint}
+
+Story so far:
+"""
+${storyText}
+"""
+
+Write the next 2-3 paragraphs that continue this story. Match the tone and style of the original.
+After the continuation, on a new line write "SUGGESTIONS:" followed by 3 brief alternative directions the story could take, each on its own line starting with a dash.`;
+
+    const response = await this.generateText({
+      prompt: textPrompt,
+      maxTokens: 1000,
+      temperature: 0.85,
+    });
+
+    // Parse the response to extract continuation and suggestions
+    const parts = response.split("SUGGESTIONS:");
+    const continuation = parts[0].trim();
+    const suggestionsText = parts[1] || "";
+    const suggestions = suggestionsText
+      .split("\n")
+      .map((s) => s.replace(/^-\s*/, "").trim())
+      .filter((s) => s.length > 0)
+      .slice(0, 3);
+
+    // Generate an image for the continued scene
+    const imagePrompt = `Atmospheric illustration for a story scene: ${continuation.slice(0, 200)}. Cinematic, evocative, high quality concept art`;
+
+    try {
+      const imageUrl = await this.generateImage({ prompt: imagePrompt });
+      return { continuation, suggestions, imageUrl };
+    } catch {
+      return { continuation, suggestions };
+    }
+  }
+
   async generateWorld(concept: string): Promise<{
     name: string;
     description: string;

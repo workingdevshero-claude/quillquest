@@ -98,6 +98,23 @@ const server = Bun.serve({
       },
     },
 
+    // API: Continue story
+    "/api/stories/continue": {
+      POST: async (req) => {
+        try {
+          const body = await parseBody(req);
+          if (!body.storyText) {
+            return error("Story text is required");
+          }
+          const result = await venice.continueStory(body.storyText, body.direction);
+          return json(result);
+        } catch (e) {
+          console.error("Error continuing story:", e);
+          return error("Failed to continue story", 500);
+        }
+      },
+    },
+
     // Health check
     "/api/health": {
       GET: () => json({ status: "ok", timestamp: new Date().toISOString() }),
