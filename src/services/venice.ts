@@ -41,21 +41,25 @@ export class VeniceService {
   }
 
   async generateImage(options: ImageGenerationOptions): Promise<string> {
-    const { prompt, style = "realistic", width = 1024, height = 1024 } = options;
+    const { prompt, width = 1024, height = 1024 } = options;
 
     const response = await this.request("/api/v1/image/generate", {
       method: "POST",
       body: JSON.stringify({
         prompt,
-        style_preset: style,
         width,
         height,
-        model: "fluently-xl",
+        model: "venice-sd35",
       }),
     });
 
-    // Return the image URL or base64 data
-    return response.images?.[0]?.url || response.images?.[0]?.b64_json;
+    // Venice returns base64-encoded webp image in images array
+    const imageData = response.images?.[0];
+    if (imageData) {
+      // Return as data URL for direct use in img src
+      return `data:image/webp;base64,${imageData}`;
+    }
+    throw new Error("No image returned from Venice API");
   }
 
   async generateText(options: TextGenerationOptions): Promise<string> {
