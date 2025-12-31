@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuillQuest - AI-Powered Creative Writing Companion</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div id="app">
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">&#x270D;</span>
+        <h1>QuillQuest</h1>
+      </div>
+      <p class="tagline">Your AI-Powered Creative Writing Companion</p>
+    </header>
+
+    <nav class="nav">
+      <button class="nav-btn active" data-tab="prompts">Writing Prompts</button>
+      <button class="nav-btn" data-tab="characters">Character Creator</button>
+      <button class="nav-btn" data-tab="scenes">Scene Visualizer</button>
+      <button class="nav-btn" data-tab="worlds">World Builder</button>
+    </nav>
+
+    <main class="main">
+      <!-- Writing Prompts Tab -->
+      <section id="prompts" class="tab-content active">
+        <h2>Generate Writing Prompts</h2>
+        <p>Get inspired with unique story ideas tailored to your preferred genre.</p>
+        <div class="form-group">
+          <label for="genre">Genre (optional)</label>
+          <select id="genre">
+            <option value="">Any Genre</option>
+            <option value="fantasy">Fantasy</option>
+            <option value="science fiction">Science Fiction</option>
+            <option value="mystery">Mystery</option>
+            <option value="romance">Romance</option>
+            <option value="horror">Horror</option>
+            <option value="thriller">Thriller</option>
+            <option value="literary fiction">Literary Fiction</option>
+            <option value="historical fiction">Historical Fiction</option>
+          </select>
+        </div>
+        <button class="btn-primary" onclick="generatePrompt()">Generate Prompt</button>
+        <div id="prompt-result" class="result-area"></div>
+      </section>
+
+      <!-- Character Creator Tab -->
+      <section id="characters" class="tab-content">
+        <h2>Character Creator</h2>
+        <p>Describe a character and watch them come to life with a detailed profile and portrait.</p>
+        <div class="form-group">
+          <label for="character-desc">Character Description</label>
+          <textarea id="character-desc" placeholder="A mysterious traveler with silver eyes who carries an ancient book..." rows="3"></textarea>
+        </div>
+        <button class="btn-primary" onclick="generateCharacter()">Create Character</button>
+        <div id="character-result" class="result-area"></div>
+      </section>
+
+      <!-- Scene Visualizer Tab -->
+      <section id="scenes" class="tab-content">
+        <h2>Scene Visualizer</h2>
+        <p>Describe a scene from your story and see it brought to life.</p>
+        <div class="form-group">
+          <label for="scene-desc">Scene Description</label>
+          <textarea id="scene-desc" placeholder="A dimly lit tavern where shadows dance on the walls, and a lone figure sits in the corner..." rows="3"></textarea>
+        </div>
+        <button class="btn-primary" onclick="visualizeScene()">Visualize Scene</button>
+        <div id="scene-result" class="result-area"></div>
+      </section>
+
+      <!-- World Builder Tab -->
+      <section id="worlds" class="tab-content">
+        <h2>World Builder</h2>
+        <p>Create rich, detailed settings for your stories.</p>
+        <div class="form-group">
+          <label for="world-concept">World Concept</label>
+          <textarea id="world-concept" placeholder="A floating city in the clouds where magic is powered by starlight..." rows="3"></textarea>
+        </div>
+        <button class="btn-primary" onclick="generateWorld()">Build World</button>
+        <div id="world-result" class="result-area"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Built with creativity and curiosity</p>
+      <p><a href="https://github.com/workingdevshero-claude/quillquest">GitHub</a></p>
+    </footer>
+  </div>
+
+  <script type="module" src="./app.ts"></script>
+</body>
+</html>
